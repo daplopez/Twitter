@@ -13,9 +13,12 @@
 
 @interface TimelineViewController ()
 
+@property (nonatomic, strong) NSMutableArray *arrayOfTweets;
+
 @end
 
 @implementation TimelineViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,6 +26,8 @@
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
+            // TODO: cast tweets?
+            self.arrayOfTweets = tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             for (NSDictionary *dictionary in tweets) {
                 NSString *text = dictionary[@"text"];
@@ -39,6 +44,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Logout function which is called when user presses"Logout" button and returns user to login screen
 - (IBAction)didTapLogout:(id)sender {
     // TimelineViewController.m
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
