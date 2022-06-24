@@ -15,6 +15,7 @@
     self = [super init];
 
     if (self) {
+        // Set user's properties
         self.name = dictionary[@"name"];
         self.screenName = [@"@" stringByAppendingString:dictionary[@"screen_name"]];
         self.profilePicture = dictionary[@"profile_image_url_https"];

@@ -24,7 +24,7 @@
 
 // Updating tweet count
 - (IBAction)didTapLike:(id)sender {
-    // TODO: Update the local tweet model
+    // Update the local tweet model
     if (self.tweet.favorited) {
         self.tweet.favorited = NO;
         self.tweet.favoriteCount -= 1;
@@ -58,15 +58,16 @@
 
 // Update cell's values to reflect any changes
 - (void)refreshData {
+    // Update count values
     self.likesLabel.text = [NSString stringWithFormat:@"%i", self.tweet.favoriteCount];
     self.retweetLabel.text = [NSString stringWithFormat:@"%i", self.tweet.retweetCount];
-    
+    // If favorited button was pressed
     if(self.tweet.favorited) {
         [self.didTapLike setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
    } else if (!self.tweet.favorited) {
        [self.didTapLike setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
    }
-    
+    // If retweeted button was pressed
     if(self.tweet.retweeted) {
         [self.didTapRetweet setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
     } else if (!self.tweet.retweeted) {
@@ -75,6 +76,7 @@
     
 }
 
+// When user's press the retweet button, updates UI and updates on Twitter's end as well
 - (IBAction)didTapRetweet:(id)sender {
     // Update the local tweet model
     if (self.tweet.retweeted) {

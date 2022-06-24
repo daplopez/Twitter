@@ -29,7 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
@@ -49,7 +48,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-// Logout function which is called when user presses"Logout" button and returns user to login screen
+// Logout function which is called when user presses "Logout" button and returns user to login screen
 - (IBAction)didTapLogout:(id)sender {
     // TimelineViewController.m
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -68,6 +67,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    // Determine which screen it is going to
     if([segue.identifier isEqualToString:@"composeSegue"]) {
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
@@ -84,12 +84,9 @@
         detailsController.tweet = tweet;
         detailsController.delegate = self;
     }
-
-    
 }
 
-
-
+// Sets all of the values for a tweet cell
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
@@ -101,6 +98,7 @@
     cell.retweetLabel.text = [NSString stringWithFormat:@"%i", tweet.retweetCount];
     cell.likesLabel.text = [NSString stringWithFormat:@"%i", tweet.favoriteCount];
     cell.tweet = tweet;
+    cell.tweetDate.text = tweet.createdAtString;
     if (tweet.favorited) {
         [cell.didTapLike setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
     } else if (!tweet.favorited) {
@@ -112,13 +110,9 @@
         [cell.didTapRetweet setImage:[UIImage imageNamed:@"retweet-icon"] forState:UIControlStateNormal];
     }
 
-    // Getting profile image
+    // Getting and seting profile image
     NSString *URLString = [tweet.user.profilePicture stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
     NSURL *url = [NSURL URLWithString:URLString];
-//    NSData *urlData = [NSData dataWithContentsOfURL:url];
-//    cell.profileImage.image = [UIImage imageWithData:urlData];
-//    [cell.profileImage setData:urlData];
-    cell.tweetDate.text = tweet.createdAtString;
     [cell.profileImage setImageWithURL:url];
 
     return cell;
@@ -130,7 +124,6 @@
 
 
 - (void)fetchData {
-
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
@@ -152,6 +145,7 @@
 }
 
 - (void)didTweet:(nonnull Tweet *)tweet {
+    // Add newly composed tweet to the beginning of the timeline
     [self.arrayOfTweets insertObject:tweet atIndex:0];
     [self.tableView reloadData];
 }

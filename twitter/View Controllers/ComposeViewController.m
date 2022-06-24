@@ -13,6 +13,8 @@
 
 @interface ComposeViewController () 
 @property (weak, nonatomic) IBOutlet UITextView *composeTweetView;
+@property (weak, nonatomic) NSString *curUserName;
+@property (weak, nonatomic) NSString *imageUrl;
 
 @end
 
@@ -21,9 +23,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString *url = [self.profilePicture stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
-    NSURL *pictureURL = [NSURL URLWithString:url];
-    [self.profileImage setImageWithURL:pictureURL];
+    // Getting user profile
+    [[APIManager shared] getUserProfile:^(NSString *screenName, NSError *error) {
+        if (screenName) {
+            NSLog(@"Successfully got profile");
+            self.curUserName = screenName;
+            // Getting user's profile image
+            [[APIManager shared] getUserPicture:screenName completion:^(NSString *picUrl, NSError *error) {
+                if (picUrl) {
+                    NSLog(@"Successfully got image");
+                    self.imageUrl = picUrl;
+                    NSURL *pictureURL = [NSURL URLWithString:self.imageUrl];
+                    //NSString *url = [self.pictureURL stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+                    [self.profileImage setImageWithURL:pictureURL];
+                } else {
+                    NSLog(@"Error getting profile: %@", error.localizedDescription);
+                }
+            }];
+            
+        } else {
+            NSLog(@"Error getting profile: %@", error.localizedDescription);
+        }
+    }];
+    
+    
+    
+//    NSString *url = [self.profilePicture stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+    
+    // Adding a border to compose text view
     self.textView.layer.borderWidth = 2.0;
     self.textView.layer.borderColor = UIColor.grayColor.CGColor;
 }
@@ -38,6 +65,7 @@
 }
 */
 - (IBAction)didTapCLose:(id)sender {
+    // close compose view if button is pressed
     [self dismissViewControllerAnimated:true completion:nil];
 }
 

@@ -8,6 +8,7 @@
 
 #import "APIManager.h"
 #import "Tweet.h"
+#import "User.h"
 
 static NSString * const baseURLString = @"https://api.twitter.com";
 
@@ -64,6 +65,35 @@ static NSString * const baseURLString = @"https://api.twitter.com";
         completion(nil, error);
    }];
 }
+
+- (void)getUserProfile:(void(^)(NSString *screenName, NSError *error))completion {
+    
+    [self GET:@"1.1/account/settings.json"
+   parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable user) {
+        // Success
+        NSString *screenName = user[@"screen_name"];
+        completion(screenName, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        // There was a problem
+        completion(nil, error);
+   }];
+}
+
+- (void)getUserPicture: (NSString*) screenName completion:(void(^)(NSString *picUrl, NSError *error))completion {
+    
+    NSString *urlString = @"1.1/users/show.json";
+    NSDictionary *parameters = @{@"screen_name": screenName};
+    [self GET:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable user) {
+        // Success
+        User *curUser = [[User alloc] initWithDictionary:user];
+        NSString *picUrl = curUser.profilePicture;
+        completion(picUrl, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        // There was a problem
+        completion(nil, error);
+   }];
+}
+
 
 //- (void)getUserProfileImage:(void(^)(NSArray *tweets, NSError *error))completion {
 //    

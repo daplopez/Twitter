@@ -19,5 +19,7 @@
 - (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 - (void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 - (void)unFavorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
+- (void)getUserProfile:(void(^)(NSString *screenName, NSError *error))completion;
+- (void)getUserPicture: (NSString *) screenName completion:(void(^)(NSString *imageUrl, NSError *error))completion;
 
 @end
