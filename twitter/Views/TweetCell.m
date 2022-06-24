@@ -32,9 +32,9 @@
         self.tweet.favorited = YES;
         self.tweet.favoriteCount += 1;
     }
-    // TODO: Update cell UI
+    // Update cell UI
     [self refreshData];
-    // TODO: Send a POST request to the POST favorites/create endpoint
+    // Send a POST request to the POST favorites/create endpoint
     if (self.tweet.favorited) {
      [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
          if(error){
@@ -56,6 +56,7 @@
     }
 }
 
+// Update cell's values to reflect any changes
 - (void)refreshData {
     self.likesLabel.text = [NSString stringWithFormat:@"%i", self.tweet.favoriteCount];
     self.retweetLabel.text = [NSString stringWithFormat:@"%i", self.tweet.retweetCount];
@@ -75,7 +76,7 @@
 }
 
 - (IBAction)didTapRetweet:(id)sender {
-    // TODO: Update the local tweet model
+    // Update the local tweet model
     if (self.tweet.retweeted) {
         self.tweet.retweeted = NO;
         self.tweet.retweeted -= 1;
@@ -83,9 +84,9 @@
         self.tweet.retweeted = YES;
         self.tweet.retweetCount += 1;
     }
-    // TODO: Update cell UI
+    // Update cell UI
     [self refreshData];
-    // TODO: Send a POST request to the POST favorites/create endpoint
+    // Send a POST request to the POST favorites/create endpoint
      [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
          if(error){
               NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
@@ -96,6 +97,7 @@
      }];
     
 }
+
 
 
 @end

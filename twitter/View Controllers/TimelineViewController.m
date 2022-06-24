@@ -14,8 +14,9 @@
 #import "Tweet.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "DetailsViewController.h"
 
-@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface TimelineViewController () <ComposeViewControllerDelegate, DetailsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -67,12 +68,24 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
-    NSIndexPath *indexPath =[self.tableView indexPathForCell:sender];
-    Tweet *tweet = self.arrayOfTweets[indexPath.row];
-    composeController.profilePicture = tweet.user.profilePicture;
+    if([segue.identifier isEqualToString:@"composeSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        NSIndexPath *indexPath =[self.tableView indexPathForCell:sender];
+        Tweet *tweet = self.arrayOfTweets[indexPath.row];
+        composeController.profilePicture = tweet.user.profilePicture;
+        composeController.delegate = self;
+
+    } else if ([segue.identifier isEqualToString:@"detailsSegue"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        DetailsViewController *detailsController = (DetailsViewController*)navigationController.topViewController;
+        NSIndexPath *indexPath =[self.tableView indexPathForCell:sender];
+        Tweet *tweet = self.arrayOfTweets[indexPath.row];
+        detailsController.tweet = tweet;
+        detailsController.delegate = self;
+    }
+
+    
 }
 
 
@@ -105,6 +118,7 @@
 //    NSData *urlData = [NSData dataWithContentsOfURL:url];
 //    cell.profileImage.image = [UIImage imageWithData:urlData];
 //    [cell.profileImage setData:urlData];
+    cell.tweetDate.text = tweet.createdAtString;
     [cell.profileImage setImageWithURL:url];
 
     return cell;
@@ -142,4 +156,7 @@
     [self.tableView reloadData];
 }
 
+- (void)didTapView:(nonnull Tweet *)tweet {
+    [self.tableView reloadData];
+}
 @end
