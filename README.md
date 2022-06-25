@@ -2,7 +2,7 @@
 
 Twitter is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **X** hours spent in total
+Time spent: 15 hours spent in total
 
 ## User Stories
 
@@ -19,7 +19,7 @@ The following **core** features are completed:
 - [x] Each tweet should display user profile picture, username, screen name, tweet text, timestamp, as well as buttons and labels for favorite, reply, and retweet counts.
 - [x] Compose and post a tweet from a Compose Tweet view, launched from a Compose button on the Nav bar.
 - [x] See Tweet details in a Details view
-- [ ] App should render consistently all views and subviews in recent iPhone models and all orientations
+- [x] App should render consistently all views and subviews in recent iPhone models and all orientations
 
 The following **stretch** features are implemented:
 
@@ -45,8 +45,8 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
-2.
+1. How to make more API calls.
+2. Better ways to implement Auto-layout.
 
 ## Video Walkthrough
 
@@ -58,7 +58,7 @@ GIF created with [Kap](https://getkap.co/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+There were a lot of challenging things with this project, from using API mangers and AutoLayout to using delegates and protocols. It was all a bit challenging and took a bit to understand.
 
 ## Credits
 
@@ -68,7 +68,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2022] [Daphne Lopez]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
