@@ -58,7 +58,7 @@ GIF created with [Kap](https://getkap.co/).
 
 ## Notes
 
-There were a lot of challenging things with this project, from using API mangers and AutoLayout to using delegates and protocols. It was all a bit challenging and took a bit to understand.
+There were a lot of challenging things with this project, from using API mangers and AutoLayout to using delegates and protocols. It was all a bit challenging and took a bit to understand, but I feel like I understood things better and things went smoother than the previous project.
 
 ## Credits
 
